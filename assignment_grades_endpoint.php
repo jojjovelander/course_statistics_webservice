@@ -23,19 +23,23 @@ class assignment_grades_endpoint
             // Create new array for each assignment
             $userGradesByAssignment[$i] = [];
 
+            $j = 0;
             foreach ($courseData['usergrades'] as $user) {
-                // Here we have a user
-                $test = self::generateGradeObject($user['gradeitems'][$i]['gradeformatted'], $user['userfullname']/*"Student " . ($j + 1)*/);
-                array_push($userGradesByAssignment[$i], $test);
+                $selected = (int)$user['userid'] === (int)$userId;
+
+                $gradeObject = self::generateGradeObject($user['gradeitems'][$i]['gradeformatted'], ($selected ? $user['userfullname'] : " Student " . (++$j)), $selected);
+                array_push($userGradesByAssignment[$i], $gradeObject);
             }
+            sort($userGradesByAssignment[$i]);
         }
         return json_encode($userGradesByAssignment);
     }
-    public static function generateGradeObject($grade, $studentName)
+    public static function generateGradeObject($grade, $studentName, $selected)
     {
         $obj = new StdClass();
         $obj->value = $grade == "-" ? (float)0.0 : (float)$grade;
         $obj->name = $studentName;
+        $obj->selected = $selected;
         return $obj;
     }
 }
