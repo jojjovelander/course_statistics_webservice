@@ -27,7 +27,7 @@ class assignment_grades_endpoint
             foreach ($courseData['usergrades'] as $user) {
                 $selected = (int)$user['userid'] === (int)$userId;
 
-                $gradeObject = self::generateGradeObject($user['gradeitems'][$i]['gradeformatted'], ($selected ? $user['userfullname'] : " Student " . (++$j)), $selected);
+                $gradeObject = self::generateGradeObject($user['gradeitems'][$i]['gradeformatted'], ($selected ? 'You' : " Student " . (++$j)), $selected);
                 array_push($userGradesByAssignment[$i], $gradeObject);
             }
             sort($userGradesByAssignment[$i]);
