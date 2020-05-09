@@ -22,6 +22,14 @@ $functions = array(
         'type' => 'read',
     ),
 
+    'local_course_statistics_webservice_get_user_events_over_time' => array(
+        'classname' => 'local_course_statistics_webservice_external',
+        'methodname' => 'get_user_events_over_time',
+        'classpath' => 'local/course_statistics_webservice/externallib.php',
+        'description' => 'Returns a JSON object of events for a user for a particular course over time.',
+        'type' => 'read',
+    ),
+
     'local_course_statistics_webservice_get_assignment_grades' => array(
         'classname' => 'local_course_statistics_webservice_external',
         'methodname' => 'get_assignment_grades',
@@ -50,8 +58,12 @@ $functions = array(
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'Course Statistics Service' => array(
-        'functions' => array('local_course_statistics_webservice_get_user_events', 'local_course_statistics_webservice_get_assignment_grades',
-            'local_course_statistics_webservice_get_user_grade_items_by_course', 'local_course_statistics_webservice_get_ip_data'),
+        'functions' => array(
+            'local_course_statistics_webservice_get_user_events',
+            'local_course_statistics_webservice_get_assignment_grades',
+            'local_course_statistics_webservice_get_user_grade_items_by_course',
+            'local_course_statistics_webservice_get_ip_data',
+            'local_course_statistics_webservice_get_user_events_over_time'),
         'restrictedusers' => 0,
         'enabled' => 1,
     )

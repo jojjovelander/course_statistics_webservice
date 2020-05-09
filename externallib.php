@@ -21,16 +21,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot . '/user/externallib.php');
-require_once($CFG->dirroot . '/grade/report/user/externallib.php');
 require_once($CFG->dirroot . '/mod/forum/externallib.php');
 require_once($CFG->dirroot . '/grade/report/user/externallib.php');
 require_once($CFG->dirroot . '/grade/lib.php');
-require_once($CFG->dirroot . '/grade/report/user/lib.php');
 require_once($CFG->dirroot . '/grade/report/user/lib.php');
 require_once('assignment_grades_endpoint.php');
 require_once('user_grade_items.php');
 require_once('ip_data.php');
 require_once('user_events.php');
+require_once('user_events_over_time.php');
 
 class local_course_statistics_webservice_external extends external_api
 {
@@ -80,5 +79,17 @@ class local_course_statistics_webservice_external extends external_api
 
     public static function get_user_events($courseid, $userid) {
         return user_events::get_user_events($courseid, $userid);
+    }
+
+    public static function get_user_events_over_time_parameters() {
+        return user_events_over_time::get_user_events_over_time_parameters();
+    }
+
+    public static function get_user_events_over_time_returns() {
+        return user_events_over_time::get_user_events_over_time_returns();
+    }
+
+    public static function get_user_events_over_time($courseid, $userid) {
+        return user_events_over_time::get_user_events_over_time($courseid, $userid);
     }
 }
