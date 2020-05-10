@@ -30,6 +30,7 @@ require_once('user_grade_items.php');
 require_once('ip_data.php');
 require_once('user_events.php');
 require_once('user_events_over_time.php');
+require_once('general_info.php');
 
 class local_course_statistics_webservice_external extends external_api
 {
@@ -91,5 +92,17 @@ class local_course_statistics_webservice_external extends external_api
 
     public static function get_user_events_over_time($courseid, $userid) {
         return user_events_over_time::get_user_events_over_time($courseid, $userid);
+    }
+
+    public static function get_general_info_parameters() {
+        return general_info::get_general_info_parameters();
+    }
+
+    public static function get_general_info_returns() {
+        return general_info::get_general_info_returns();
+    }
+
+    public static function get_general_info($courseid, $userid) {
+        return general_info::get_general_info($courseid, $userid);
     }
 }

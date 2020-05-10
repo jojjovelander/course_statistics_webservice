@@ -14,6 +14,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $functions = array(
+    'local_course_statistics_webservice_get_general_info' => array(
+        'classname' => 'local_course_statistics_webservice_external',
+        'methodname' => 'get_general_info',
+        'classpath' => 'local/course_statistics_webservice/externallib.php',
+        'description' => 'Returns a JSON object of all events for a user for a particular course.',
+        'type' => 'read',
+    ),
+
     'local_course_statistics_webservice_get_user_events' => array(
         'classname' => 'local_course_statistics_webservice_external',
         'methodname' => 'get_user_events',
@@ -63,7 +71,8 @@ $services = array(
             'local_course_statistics_webservice_get_assignment_grades',
             'local_course_statistics_webservice_get_user_grade_items_by_course',
             'local_course_statistics_webservice_get_ip_data',
-            'local_course_statistics_webservice_get_user_events_over_time'),
+            'local_course_statistics_webservice_get_user_events_over_time',
+            'local_course_statistics_webservice_get_general_info'),
         'restrictedusers' => 0,
         'enabled' => 1,
     )
