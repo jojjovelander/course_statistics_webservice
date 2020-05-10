@@ -18,7 +18,15 @@ $functions = array(
         'classname' => 'local_course_statistics_webservice_external',
         'methodname' => 'get_general_info',
         'classpath' => 'local/course_statistics_webservice/externallib.php',
-        'description' => 'Returns a JSON object of all events for a user for a particular course.',
+        'description' => 'Returns a JSON object general user & course information.',
+        'type' => 'read',
+    ),
+
+    'local_course_statistics_webservice_get_origin_data' => array(
+        'classname' => 'local_course_statistics_webservice_external',
+        'methodname' => 'get_origin_data',
+        'classpath' => 'local/course_statistics_webservice/externallib.php',
+        'description' => 'Returns a JSON object of origin event data for a user for a particular course.',
         'type' => 'read',
     ),
 
@@ -72,7 +80,8 @@ $services = array(
             'local_course_statistics_webservice_get_user_grade_items_by_course',
             'local_course_statistics_webservice_get_ip_data',
             'local_course_statistics_webservice_get_user_events_over_time',
-            'local_course_statistics_webservice_get_general_info'),
+            'local_course_statistics_webservice_get_general_info',
+            'local_course_statistics_webservice_get_origin_data'),
         'restrictedusers' => 0,
         'enabled' => 1,
     )

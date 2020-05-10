@@ -31,6 +31,7 @@ require_once('ip_data.php');
 require_once('user_events.php');
 require_once('user_events_over_time.php');
 require_once('general_info.php');
+require_once('origin_data.php');
 
 class local_course_statistics_webservice_external extends external_api
 {
@@ -105,4 +106,17 @@ class local_course_statistics_webservice_external extends external_api
     public static function get_general_info($courseid, $userid) {
         return general_info::get_general_info($courseid, $userid);
     }
+
+    public static function get_origin_data_parameters() {
+        return origin_data::get_origin_data_parameters();
+    }
+
+    public static function get_origin_data_returns() {
+        return origin_data::get_origin_data_returns();
+    }
+
+    public static function get_origin_data($courseid, $userid) {
+        return origin_data::get_origin_data($courseid, $userid);
+    }
+
 }
