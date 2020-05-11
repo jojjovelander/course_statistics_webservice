@@ -1,13 +1,14 @@
 <?php
 
+require_once('webservice_base.php');
+
 class user_events_over_time
 {
     public static function get_user_events_over_time_parameters()
     {
         return new external_function_parameters(
             array(
-                'courseid' => new external_value(PARAM_TEXT, 'The course id"', VALUE_DEFAULT, 0),
-                'userid' => new external_value(PARAM_TEXT, 'The user id"', VALUE_DEFAULT, 0),));
+                't' => new external_value(PARAM_TEXT, 'The user token"', VALUE_DEFAULT, 0),));
     }
 
     public static function get_user_events_over_time_returns()
@@ -15,8 +16,13 @@ class user_events_over_time
         return new external_value(PARAM_RAW, 'Returns a JSON object of the top 5 user events for a particular course over time.');
     }
 
-    public static function get_user_events_over_time($courseid, $userid)
+    public static function get_user_events_over_time($t)
     {
+        $credentials = webservice_base::getValidCredentials($t);
+        if (empty($credentials)) {
+            return json_encode([]);
+        }
+
         global $DB;
 
         $results = $DB->get_records_sql('SELECT uuid_in(md5(random()::text || now()::text)::cstring) as id, l.eventname, TO_CHAR(TO_TIMESTAMP(l.timecreated), \'DD/MM/YYYY\') as date, COUNT(*) AS num
@@ -32,7 +38,7 @@ WHERE userid = :u1
                                ORDER BY count DESC
                                LIMIT 5) as countedEvents)
 GROUP BY l.eventname, TO_CHAR(TO_TIMESTAMP(l.timecreated), \'DD/MM/YYYY\')',
-            ['c1' => $courseid, 'u1' => $userid, 'c2' => $courseid, 'u2' => $userid, 'c3' => $courseid, 'u3' => $userid]);
+            ['c1' => $credentials->courseId, 'u1' => $credentials->userId, 'c2' => $credentials->courseId, 'u2' => $credentials->userId, 'c3' => $credentials->courseId, 'u3' => $credentials->userId]);
 
         $outputArray = [];
 

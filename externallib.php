@@ -43,8 +43,8 @@ class local_course_statistics_webservice_external extends external_api
         return assignment_grades_endpoint::get_assignment_grades_returns();
     }
 
-    public static function get_assignment_grades($courseid, $userid) {
-        return assignment_grades_endpoint::get_assignment_grades($courseid, $userid);
+    public static function get_assignment_grades($t) {
+        return assignment_grades_endpoint::get_assignment_grades($t);
     }
 
     public static function get_user_grade_items_by_course_parameters() {
@@ -55,8 +55,8 @@ class local_course_statistics_webservice_external extends external_api
         return user_grade_items::get_user_grade_items_by_course_returns();
     }
 
-    public static function get_user_grade_items_by_course($courseid, $userid) {
-        return user_grade_items::get_user_grade_items_by_course($courseid,$userid);
+    public static function get_user_grade_items_by_course($t) {
+        return user_grade_items::get_user_grade_items_by_course($t);
     }
 
     public static function get_ip_data_parameters() {
@@ -67,8 +67,8 @@ class local_course_statistics_webservice_external extends external_api
         return ip_data::get_ip_data_returns();
     }
 
-    public static function get_ip_data($courseid, $userid) {
-        return ip_data::get_ip_data($courseid, $userid);
+    public static function get_ip_data($t) {
+        return ip_data::get_ip_data($t);
     }
 
     public static function get_user_events_parameters() {
@@ -79,8 +79,8 @@ class local_course_statistics_webservice_external extends external_api
         return user_events::get_user_events_returns();
     }
 
-    public static function get_user_events($courseid, $userid) {
-        return user_events::get_user_events($courseid, $userid);
+    public static function get_user_events($t) {
+        return user_events::get_user_events($t);
     }
 
     public static function get_user_events_over_time_parameters() {
@@ -91,8 +91,8 @@ class local_course_statistics_webservice_external extends external_api
         return user_events_over_time::get_user_events_over_time_returns();
     }
 
-    public static function get_user_events_over_time($courseid, $userid) {
-        return user_events_over_time::get_user_events_over_time($courseid, $userid);
+    public static function get_user_events_over_time($t) {
+        return user_events_over_time::get_user_events_over_time($t);
     }
 
     public static function get_general_info_parameters() {
@@ -103,8 +103,8 @@ class local_course_statistics_webservice_external extends external_api
         return general_info::get_general_info_returns();
     }
 
-    public static function get_general_info($courseid, $userid) {
-        return general_info::get_general_info($courseid, $userid);
+    public static function get_general_info($t) {
+        return general_info::get_general_info($t);
     }
 
     public static function get_origin_data_parameters() {
@@ -115,8 +115,8 @@ class local_course_statistics_webservice_external extends external_api
         return origin_data::get_origin_data_returns();
     }
 
-    public static function get_origin_data($courseid, $userid) {
-        return origin_data::get_origin_data($courseid, $userid);
+    public static function get_origin_data($t) {
+        return origin_data::get_origin_data($t);
     }
 
 }
