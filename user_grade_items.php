@@ -22,11 +22,11 @@ class user_grade_items {
         }
 
         $courseData = gradereport_user_external::get_grade_items($credentials->courseId, $credentials->userId);
-        $gradeItems = $courseData['usergrades'][0]['gradeitems'];
+        $gradeItems = self::getNumericGradeItems($courseData['usergrades'][0]['gradeitems']);
         $jsonGradeResponse = [];
         $i = 1;
         foreach ($gradeItems as $gradeItem) {
-            if ($gradeItem['itemtype'] == 'mod') {
+            if ($gradeItem['itemtype'] == 'mod' && (count(self::getNumericGradeItems($gradeItem)) != 0)) {
                 $obj = self::generateAssignmentObject($i);
                 array_push($obj->series, self::generateUserAssignmentGradeObject($gradeItem['gradeformatted'], "Grade"));
                 array_push($obj->series, self::generateUserAssignmentGradeObject($gradeItem['averageformatted'], "Average"));
@@ -49,5 +49,11 @@ class user_grade_items {
         $obj->name = "Assigment $i";
         $obj->series = [];
         return $obj;
+    }
+
+    private static function getNumericGradeItems(array $data): array{
+        return array_filter($data, function ($value) {
+            return preg_match('/^[0-9&ndash;-]*$/', $value['rangeformatted']);
+        });
     }
 }
