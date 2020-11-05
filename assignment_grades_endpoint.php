@@ -31,10 +31,11 @@ class assignment_grades_endpoint
         $courseData = gradereport_user_external::get_grade_items($credentials->courseId);
         $numOfAssignments = count($courseData['usergrades'][0]['gradeitems']);
         $userGradesByAssignment = [];
+        $currentIndex = 0;
 
         for ($i = 0; $i < $numOfAssignments - 1; $i++) {
             // Create new array for each assignment
-            $userGradesByAssignment[$i] = [];
+
             $assignedGrades = [];
             $userGrade = null;
 
@@ -61,10 +62,14 @@ class assignment_grades_endpoint
                     }
                 }
             }
-            $assignmentResult = new StdClass();
-            $assignmentResult->user_grade = $userGrade;
-            $assignmentResult->grades = $assignedGrades;
-            $userGradesByAssignment[$i] = $assignmentResult;
+            if (count($assignedGrades) != 1 && $assignedGrades[0]->value != "-"){
+                $userGradesByAssignment[$currentIndex] = [];
+                $assignmentResult = new StdClass();
+                $assignmentResult->user_grade = $userGrade;
+                $assignmentResult->grades = $assignedGrades;
+                $userGradesByAssignment[$currentIndex] = $assignmentResult;
+                $currentIndex++;
+            }
         }
         return json_encode($userGradesByAssignment);
     }
