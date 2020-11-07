@@ -15,6 +15,10 @@ class assignment_grades_endpoint
         return new external_value(PARAM_RAW, 'JSON mock data');
     }
 
+    public static function cmp($a, $b){
+        return strcmp($a->name, $b->name);
+    }
+
     public static function get_assignment_grades($t) {
 
         $filter_by_grade = function($grade) {
@@ -35,14 +39,13 @@ class assignment_grades_endpoint
 
         for ($i = 0; $i < $numOfAssignments - 1; $i++) {
             // Create new array for each assignment
-
             $assignedGrades = [];
             $userGrade = null;
 
             foreach ($courseData['usergrades'] as $user) {
                 $selected = (int)$user['userid'] === (int)$credentials->userId;
                 $gradeFormatted = $user['gradeitems'][$i]['gradeformatted'];
-                $grade = !is_numeric($gradeFormatted) ? $gradeFormatted : $user['gradeitems'][$i]['lettergradeformatted'];
+                $grade = !is_numeric($gradeFormatted) ? $gradeFormatted : $user['gradeitems'][$i]['lettergradeformatted'][0];
                 if ($selected){
                     $userGrade = $grade;
                 }
@@ -66,6 +69,7 @@ class assignment_grades_endpoint
                 $userGradesByAssignment[$currentIndex] = [];
                 $assignmentResult = new StdClass();
                 $assignmentResult->user_grade = $userGrade;
+                usort($assignedGrades, array("assignment_grades_endpoint", "cmp"));
                 $assignmentResult->grades = $assignedGrades;
                 $userGradesByAssignment[$currentIndex] = $assignmentResult;
                 $currentIndex++;
