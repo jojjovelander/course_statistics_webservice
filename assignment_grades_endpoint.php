@@ -42,19 +42,21 @@ class assignment_grades_endpoint
             $assignedGrades = [];
             $userGrade = null;
 
+            $assignmentName = '';
             foreach ($courseData['usergrades'] as $user) {
                 $selected = (int)$user['userid'] === (int)$credentials->userId;
                 $gradeFormatted = $user['gradeitems'][$i]['gradeformatted'];
+                $assignmentName = $user['gradeitems'][$i]['itemname'];
                 $grade = !is_numeric($gradeFormatted) ? $gradeFormatted : $user['gradeitems'][$i]['lettergradeformatted'][0];
                 if ($selected){
                     $userGrade = $grade;
                 }
-
                 $output = array_filter($assignedGrades, $filter_by_grade($grade));
                 if (empty($output)) {
                     $obj = new StdClass();
                     $obj->name = $grade;
                     $obj->value = 1;
+
                     array_push($assignedGrades, $obj);
                 } else {
                     foreach ($assignedGrades as $assignedGrade) {
@@ -69,6 +71,7 @@ class assignment_grades_endpoint
                 $userGradesByAssignment[$currentIndex] = [];
                 $assignmentResult = new StdClass();
                 $assignmentResult->user_grade = $userGrade;
+                $assignmentResult->assignment_name = $assignmentName;
                 usort($assignedGrades, array("assignment_grades_endpoint", "cmp"));
                 $assignmentResult->grades = $assignedGrades;
                 $userGradesByAssignment[$currentIndex] = $assignmentResult;
