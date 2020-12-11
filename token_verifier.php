@@ -3,7 +3,7 @@
 class token_verifier
 {
     const TOKEN_TTL = 10;
-    const PASSWORD = "jkoa9u0dja3mp1!as0diADNHD$";
+    const PASSWORD = "CHANGE_ME";
 
     static function decrypt($ivHashCiphertext, $password)
     {
