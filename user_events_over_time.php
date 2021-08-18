@@ -25,11 +25,8 @@ class user_events_over_time
 
         global $DB;
 
-        $results = $DB->get_records_sql('SELECT uuid_in(md5(random()::text || now()::text)::cstring) as id, l.eventname, TO_CHAR(TO_TIMESTAMP(l.timecreated), \'DD/MM/YYYY\') as date, COUNT(*) AS num
-FROM m_logstore_standard_log l
-WHERE userid = :u1
-  AND courseid = :c1
-  AND l.eventname = ANY (SELECT eventname
+        $results = $DB->get_records_sql('SELECT UUID() as id, l.eventname, FROM_UNIXTIME(l.timecreated, \'%d/%c/%Y\') as date, COUNT(*) AS num
+FROM m_logstore_standard_log l WHERE userid = :u1 AND courseid = :c1 AND l.eventname = ANY (SELECT eventname
                          FROM (SELECT eventname, COUNT(*) as count
                                FROM m_logstore_standard_log
                                WHERE courseid = :c2
@@ -37,7 +34,7 @@ WHERE userid = :u1
                                GROUP BY eventname
                                ORDER BY count DESC
                                LIMIT 5) as countedEvents)
-GROUP BY l.eventname, TO_CHAR(TO_TIMESTAMP(l.timecreated), \'DD/MM/YYYY\')',
+GROUP BY l.eventname, FROM_UNIXTIME(l.timecreated, \'%d/%c/%Y\')',
             ['c1' => $credentials->courseId, 'u1' => $credentials->userId, 'c2' => $credentials->courseId, 'u2' => $credentials->userId, 'c3' => $credentials->courseId, 'u3' => $credentials->userId]);
 
         $outputArray = [];
@@ -76,7 +73,7 @@ GROUP BY l.eventname, TO_CHAR(TO_TIMESTAMP(l.timecreated), \'DD/MM/YYYY\')',
         return $obj;
     }
 
-    private static function generateEventObject(string $eventName)
+    private static function generateEventObject($eventName)
     {
         $obj = new StdClass();
         $spiltArray = explode("\\", $eventName);

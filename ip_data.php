@@ -22,21 +22,24 @@ class ip_data
             return json_encode([]);
         }
         global $DB;
-        $results = $DB->get_records_sql('SELECT DISTINCT ON (l.ip) l.ip, l.timecreated, t3.count
-                    FROM (SELECT ip, MAX(timecreated) AS mx
-                          FROM m_logstore_standard_log
-                          WHERE courseid = :c1
-                            AND userid = :u1
-                          GROUP BY ip
-                         ) t
-                             JOIN m_logstore_standard_log l ON l.ip = t.ip AND t.mx = l.timecreated
-                             JOIN (SELECT ip, COUNT(ip) as count
-                                   FROM m_logstore_standard_log
-                                    WHERE courseid = :c2
-                                    AND userid = :u2
-                                   GROUP BY ip) t3 ON l.ip = t3.ip
-                    WHERE l.courseid = :c3
-                      AND l.userid = :u3',
+        $results = $DB->get_records_sql('SELECT DISTINCT l.ip,
+                l.timecreated,
+                t3.count
+FROM (SELECT ip, MAX(timecreated) AS mx
+      FROM m_logstore_standard_log
+      WHERE courseid = :c1
+        AND userid = :u1
+      GROUP BY ip
+     ) t
+         JOIN m_logstore_standard_log l
+              ON l.ip = t.ip AND t.mx = l.timecreated
+         JOIN (SELECT ip, COUNT(ip) as count
+               FROM m_logstore_standard_log
+               WHERE courseid = :c2
+                 AND userid = :u2
+               GROUP BY ip) t3 ON l.ip = t3.ip
+WHERE l.courseid = :c3
+  AND l.userid = :u3',
             ['c1' => $credentials->courseId, 'u1' => $credentials->userId, 'c2' => $credentials->courseId, 'u2' => $credentials->userId, 'c3' => $credentials->courseId, 'u3' => $credentials->userId]);
 
         $outputArray = [];

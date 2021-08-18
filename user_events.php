@@ -22,10 +22,12 @@ class user_events
         }
         global $DB;
         $results = $DB->get_records_sql('SELECT l.eventname, l.component, COUNT(*) as count
-                                    FROM m_logstore_standard_log l
-                                    INNER JOIN {user} u ON u.id = l.userid
-                                    WHERE l.courseid = :courseid AND l.userid = :userid
-                                    GROUP BY l.component, l.eventname ORDER BY count DESC',
+                                                FROM m_logstore_standard_log l
+                                                         INNER JOIN m_user as u
+                                                ON u.id = l.userid
+                                                WHERE l.courseid = :courseid AND l.userid = :userid
+                                                GROUP BY l.component, l.eventname
+                                                ORDER BY count DESC',
             ['courseid' => $credentials->courseId, 'userid' => $credentials->userId]);
 
         $outputArray = Array();
