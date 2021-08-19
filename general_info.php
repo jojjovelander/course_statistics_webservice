@@ -23,7 +23,7 @@ class general_info
         }
 
         global $DB;
-        $result = $DB->get_record_sql('SELECT l.shortname FROM m_course l WHERE l.id = :courseid',
+        $result = $DB->get_record_sql('SELECT l.shortname FROM {{ db_prefix }}course l WHERE l.id = :courseid',
             ['courseid' => $credentials->courseId]);
 
         $obj->course = $result->shortname;

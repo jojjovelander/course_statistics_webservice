@@ -26,15 +26,15 @@ class ip_data
                 l.timecreated,
                 t3.count
 FROM (SELECT ip, MAX(timecreated) AS mx
-      FROM m_logstore_standard_log
+      FROM {{ db_prefix }}logstore_standard_log
       WHERE courseid = :c1
         AND userid = :u1
       GROUP BY ip
      ) t
-         JOIN m_logstore_standard_log l
+         JOIN {{ db_prefix }}logstore_standard_log l
               ON l.ip = t.ip AND t.mx = l.timecreated
          JOIN (SELECT ip, COUNT(ip) as count
-               FROM m_logstore_standard_log
+               FROM {{ db_prefix }}logstore_standard_log
                WHERE courseid = :c2
                  AND userid = :u2
                GROUP BY ip) t3 ON l.ip = t3.ip

@@ -26,9 +26,9 @@ class user_events_over_time
         global $DB;
 
         $results = $DB->get_records_sql('SELECT UUID() as id, l.eventname, FROM_UNIXTIME(l.timecreated, \'%d/%c/%Y\') as date, COUNT(*) AS num
-FROM m_logstore_standard_log l WHERE userid = :u1 AND courseid = :c1 AND l.eventname = ANY (SELECT eventname
+FROM {{ db_prefix }}logstore_standard_log l WHERE userid = :u1 AND courseid = :c1 AND l.eventname = ANY (SELECT eventname
                          FROM (SELECT eventname, COUNT(*) as count
-                               FROM m_logstore_standard_log
+                               FROM {{ db_prefix }}logstore_standard_log
                                WHERE courseid = :c2
                                  AND userid = :u2
                                GROUP BY eventname

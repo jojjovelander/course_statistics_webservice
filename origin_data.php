@@ -21,7 +21,7 @@ class origin_data
         }
         global $DB;
         $results = $DB->get_records_sql('SELECT l.origin, COUNT(*) as count
-                                    FROM m_logstore_standard_log l
+                                    FROM {{ db_prefix }}logstore_standard_log l
                                     WHERE l.courseid = :courseid AND l.userid = :userid
                                     GROUP BY l.origin ORDER BY count DESC',
             ['courseid' => $credentials->courseId, 'userid' => $credentials->userId]);
