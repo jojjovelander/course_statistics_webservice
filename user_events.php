@@ -23,7 +23,7 @@ class user_events
         global $DB;
         $results = $DB->get_records_sql('SELECT l.eventname, l.component, COUNT(*) as count
                                                 FROM {{ db_prefix }}logstore_standard_log l
-                                                         INNER JOIN m_user as u
+                                                         INNER JOIN {{ db_prefix }}user as u
                                                 ON u.id = l.userid
                                                 WHERE l.courseid = :courseid AND l.userid = :userid
                                                 GROUP BY l.component, l.eventname
